@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['7.2', '7.4', '8.1', '8.3']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: none
+      - name: Lint
+        run: find satelitmoldova tests -name '*.php' -print0 | xargs -0 -n1 php -l > /dev/null
+      - name: Offline tests
+        run: php tests/run.php
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python tools/translations.py --check
+      - run: python tools/build.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: module
+          path: dist/satelitmoldova.zip

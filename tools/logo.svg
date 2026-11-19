@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Neutral module icon: a price tag with a small exchange arrow. Source of satelitmoldova/logo.png. -->
+  <rect x="4" y="4" width="120" height="120" rx="26" fill="#1f6f8b"/>
+  <path d="M30 40 a8 8 0 0 1 8-8 h28 l32 32 a6 6 0 0 1 0 8.5 l-25.5 25.5 a6 6 0 0 1-8.5 0 L30 66 Z" fill="#ffffff"/>
+  <circle cx="45" cy="47" r="6" fill="#1f6f8b"/>
+  <path d="M58 70 h20 m-6-6 l6 6 -6 6" stroke="#1f6f8b" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M76 82 h-20 m6 6 l-6-6 6-6" stroke="#f2a541" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+    <name>satelitmoldova</name>
+    <displayName><![CDATA[Satelit Moldova]]></displayName>
+    <version><![CDATA[1.0.0]]></version>
+    <description><![CDATA[BNM exchange rates for your currencies and market prices from Moldovan shops on product pages, through the Satelit API.]]></description>
+    <author><![CDATA[Satelit]]></author>
+    <tab><![CDATA[pricing_promotion]]></tab>
+    <confirmUninstall><![CDATA[Remove the Satelit settings, cache and search terms?]]></confirmUninstall>
+    <is_configurable>1</is_configurable>
+    <need_instance>0</need_instance>
+    <limited_countries></limited_countries>
+</module>
