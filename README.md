@@ -21,7 +21,7 @@ Date: Satelit
 
 ## What it does
 
-**BNM exchange rates.** Sets the conversion rate of every shop currency BNM publishes (EUR, USD, RON, RUB, UAH, …) from `/v1/rates`. BNM quotes MDL per `nominal` units; the module converts that to PrestaShop's model (the default currency is 1, every other currency is "units per 1 unit of the default", 6 decimals), so any default currency works:
+**BNM exchange rates.** Sets the conversion rate of every shop currency BNM publishes (EUR, USD, RON, RUB, UAH, …) from `/v1/rates`. BNM quotes MDL per `nominal` units. The module converts that to PrestaShop's model (the default currency is 1, every other currency is "units per 1 unit of the default", 6 decimals), so any default currency works:
 
 | Default currency | EUR | MDL | USD |
 |---|---|---|---|
@@ -52,7 +52,7 @@ python tools/build.py      # dist/satelitmoldova.zip
 2. **Configure**: paste the key, **Test connection**, Save.
 3. **Update rates now**, then put the cron URL in your crontab, e.g. every hour:
    `0 * * * * curl -s "https://shop.example/index.php?fc=module&module=satelitmoldova&controller=cron&token=…"`
-   It answers one JSON line, `{"ok":true,"message":"fresh"}` while the rates are younger than the TTL; add `&force=1` to update now; a wrong token answers 403.
+   It answers one JSON line, `{"ok":true,"message":"fresh"}` while the rates are younger than the TTL. Add `&force=1` to update now. A wrong token answers 403.
 4. Turn off PrestaShop's own live exchange rates (`International > Localization > Currencies`) so they do not overwrite the BNM ones.
 
 Uninstalling removes the settings and the module's two tables (`satelit_cache`, `satelit_product`).
@@ -69,15 +69,15 @@ When the API fails (bad key, quota, network), the shop keeps its rates, the prod
 
 ## Security
 
-- The key is stored in the PrestaShop configuration and only read on the server; the form never prints it back and it is never sent to the shop pages.
+- The key is stored in the PrestaShop configuration and only read on the server. The form never prints it back and it is never sent to the shop pages.
 - The configuration page is protected by PrestaShop's AdminModules token and the module's `configure` permission.
 - Values from the API are escaped in the templates (`|escape:'html':'UTF-8'`). The cron URL needs a random 32-character token compared with `hash_equals`.
 
 ## Troubleshooting
 
-- **"key_invalid"** on Test connection: the key is wrong or revoked; make a new one in the [console](https://developer.satelit.md/en/console/).
-- **No block on a product page**: check "Market prices on product pages", the hook position in `Design > Positions`, and that the search term finds something ("no match" is cached for the prices TTL; saving the settings or a search term clears that cache).
-- **Rates do not change**: the default currency must be MDL or a currency BNM lists; the "Last update" line says what happened.
+- **"key_invalid"** on Test connection: the key is wrong or revoked. Make a new one in the [console](https://developer.satelit.md/en/console/).
+- **No block on a product page**: check "Market prices on product pages", the hook position in `Design > Positions`, and that the search term finds something ("no match" is cached for the prices TTL, saving the settings or a search term clears that cache).
+- **Rates do not change**: the default currency must be MDL or a currency BNM lists. The "Last update" line says what happened.
 - **A changed template does not show**: clear the cache in `Advanced Parameters > Performance`.
 
 ## Tested with
@@ -87,7 +87,7 @@ Verified on 19 Nov 2026 against the live API with the official Docker images (CL
 | Shop | PHP | Installed via | Checks |
 |---|---|---|---|
 | PrestaShop 1.7.8.11 (default currency MDL, languages en + ro) | 7.4.33 | unzip into `modules/` + `bin/console prestashop:module install` | configure, Test connection, Update rates now, cron URL, search term from the product page and the configuration, product page (en, ro), bad key, dead API |
-| PrestaShop 8.2.9 (default currency EUR, languages en + ro) | 8.1.34 | `Module Manager > Upload a module` | the same; search term from the configuration |
+| PrestaShop 8.2.9 (default currency EUR, languages en + ro) | 8.1.34 | `Module Manager > Upload a module` | the same. Search term from the configuration |
 
 Offline tests (`php tests/run.php`) pass on PHP 7.2 and 8.3.
 
@@ -101,7 +101,7 @@ SATELIT_API_KEY=… php tests/live.php     # optional live smoke test (about 6 c
 
 ## Pe scurt (română)
 
-Modulul `satelitmoldova` pentru PrestaShop 1.7.8 și 8.x pune în valutele magazinului cursurile oficiale BNM (prin `/v1/rates`, cu MDL ca bază, oricare ar fi valuta implicită) și arată pe pagina produsului blocul „Prețul pe piață”: prețul minim, mediana și magazinele din Moldova care vând produsul. Se încarcă din `Module > Manager module > Încarcă un modul`, cheia se pune în configurarea modulului, cursurile se actualizează cu „Actualizează cursurile acum” sau prin adresa pentru cron cu token. Totul e păstrat în cache (cursurile 3 ore, prețurile 6 ore); dacă API-ul nu răspunde, magazinul merge mai departe. Traduceri în română, rusă și engleză.
+Modulul `satelitmoldova` pentru PrestaShop 1.7.8 și 8.x pune în valutele magazinului cursurile oficiale BNM (prin `/v1/rates`, cu MDL ca bază, oricare ar fi valuta implicită) și arată pe pagina produsului blocul „Prețul pe piață”: prețul minim, mediana și magazinele din Moldova care vând produsul. Se încarcă din `Module > Manager module > Încarcă un modul`, cheia se pune în configurarea modulului, cursurile se actualizează cu „Actualizează cursurile acum” sau prin adresa pentru cron cu token. Totul e păstrat în cache (cursurile 3 ore, prețurile 6 ore). Dacă API-ul nu răspunde, magazinul merge mai departe. Traduceri în română, rusă și engleză.
 
 ## License
 
